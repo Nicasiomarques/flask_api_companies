@@ -1,0 +1,204 @@
+## Como rodar o projeto
+
+1. **Configuração do Ambiente**:
+
+   Antes de executar o projeto, certifique-se de configurar corretamente o ambiente. Defina as variáveis de ambiente necessárias para o Flask:
+
+   ```bash
+   export FLASK_APP=app
+   export FLASK_ENV=development
+   export FLASK_DEBUG=True
+   ```
+Claro! Abaixo estão os exemplos de chamadas `curl` com quebra de linha, e também foi adicionado o parâmetro `order` na rota de listagem das empresas, juntamente com informações sobre como contribuir com o projeto.
+
+## Nome do Projeto
+
+Descrição breve do projeto.
+
+### Executando o Projeto Localmente
+
+Siga as etapas abaixo para executar o projeto em sua máquina local.
+
+1. **Clone o repositório**:
+
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+   ```
+
+2. **Configuração do ambiente virtual (opcional)**:
+
+   É altamente recomendável criar um ambiente virtual para isolar as dependências do projeto. Use o `venv`, `virtualenv` ou outra ferramenta de sua preferência:
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # No Windows: venv\Scripts\activate
+   ```
+
+3. **Instale as dependências**:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Configuração do banco de dados**:
+
+   Antes de executar o projeto, configure o banco de dados em `config.py` e aplique as migrações:
+
+   ```bash
+   flask db init
+   flask db migrate -m "Initial migration"
+   flask db upgrade
+   ```
+
+5. **Inicie o servidor de desenvolvimento**:
+
+   ```bash
+   flask run
+   ```
+
+   O servidor estará acessível em `http://localhost:5000`.
+
+### Endpoints
+
+Aqui estão os endpoints disponíveis na API:
+
+#### Listar Todas as Empresas
+
+Retorna uma lista paginada contendo todas as empresas cadastradas.
+
+- **URL:** `/companies`
+- **Método:** `GET`
+- **Parâmetros da URL (opcionais):**
+  - `page` (int): Página atual (padrão: 1).
+  - `per_page` (int): Número de itens por página (padrão: 25).
+  - `order` (string): Campo pelo qual os resultados serão ordenados (opcional).
+
+##### Exemplo de Uso com `curl`:
+
+```bash
+curl -X GET \
+  http://localhost:5000/companies \
+  -d "page=1" \
+  -d "per_page=10" \
+  -d "order=nome_fantasia"
+```
+
+#### Adicionar uma Nova Empresa
+
+Adiciona uma nova empresa ao banco de dados.
+
+- **URL:** `/companies`
+- **Método:** `POST`
+- **Corpo da Requisição (JSON):**
+  - `name` (string, obrigatório): Nome da empresa.
+  - `cnae` (string, obrigatório): Código Nacional de Atividade Econômica (CNAE) da empresa.
+  - `fantasyName` (string, obrigatório): Nome fantasia da empresa.
+  - Outros campos opcionais, se aplicável.
+
+##### Exemplo de Uso com `curl`:
+
+```bash
+curl -X POST \
+  http://localhost:5000/companies \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Empresa XYZ",
+    "cnae": "123456",
+    "fantasyName": "Empresa Fantasia"
+  }'
+```
+
+#### Obter Detalhes de uma Empresa
+
+Retorna os detalhes de uma empresa específica com base no ID fornecido.
+
+- **URL:** `/companies/<int:id>`
+- **Método:** `GET`
+- **Parâmetro da URL:**
+  - `id` (int): ID da empresa a ser obtida.
+
+##### Exemplo de Uso com `curl`:
+
+```bash
+curl -X GET http://localhost:5000/companies/1
+```
+
+#### Editar uma Empresa
+
+Edita os campos "cnae" e "fantasyName" de uma empresa específica com base no ID fornecido.
+
+- **URL:** `/companies/<int:id>`
+- **Método:** `PUT`
+- **Parâmetro da URL:**
+  - `id` (int): ID da empresa a ser editada.
+- **Corpo da Requisição (JSON):**
+  - `cnae` (string, obrigatório): Novo CNAE da empresa.
+  - `fantasyName` (string, obrigatório): Novo nome fantasia da empresa.
+
+##### Exemplo de Uso com `curl`:
+
+```bash
+curl -X PUT \
+  http://localhost:5000/companies/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "cnae": "987654",
+    "fantasyName": "Novo Nome Fantasia"
+  }'
+```
+
+#### Excluir uma Empresa
+
+Exclui uma empresa específica com base no CNPJ fornecido.
+
+- **URL:** `/companies/<string:cnpj>`
+- **Método:** `DELETE`
+- **Parâmetro da URL:**
+  - `cnpj` (string): CNPJ da empresa a ser excluída.
+
+##### Exemplo de Uso com `curl`:
+
+```bash
+curl -X DELETE http://localhost:5000/companies/CNPJ-da-Empresa
+```
+
+### Como Contribuir com o Projeto
+
+Se você deseja contribuir com o projeto, siga as etapas abaixo:
+
+1. Faça um **fork** do reposit
+
+ório no GitHub.
+
+2. Clone o repositório forkado para a sua máquina local:
+
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+   ```
+
+3. Crie uma **branch** para a sua contribuição:
+
+   ```bash
+   git checkout -b minha-contribuicao
+   ```
+
+4. Faça as alterações e adições necessárias no código.
+
+5. Realize os **commits** das suas alterações:
+
+   ```bash
+   git add .
+   git commit -m "Minha contribuição: Descrição das alterações"
+   ```
+
+6. Faça um **push** da sua branch para o seu repositório forkado:
+
+   ```bash
+   git push origin minha-contribuicao
+   ```
+
+7. Abra um **Pull Request** (PR) no repositório original.
+
+8. Aguarde a revisão e discussão da sua contribuição. Após a aprovação, sua contribuição será mesclada ao projeto.

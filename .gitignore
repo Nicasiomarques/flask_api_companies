@@ -1,0 +1,33 @@
+# Arquivos específicos para o ambiente de desenvolvimento
+venv/
+api-company
+*.pyc
+__pycache__/
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Arquivos gerados pelo Flask
+instance/
+*.db
+
+# Arquivos de configuração do ambiente
+.env
+
+# Logs e arquivos de saída
+*.log
+*.out
+
+# Arquivos temporários e caches
+*.tmp
+*.swp
+
+# Arquivos gerados pelo editor
+.vscode/
+*.sublime-*
+*.idea/
+
+# Arquivos de dependências gerados pelo Python
+requirements.txt.*
