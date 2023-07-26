@@ -1,4 +1,4 @@
-## Como rodar o projeto - API de Gerenciamento de Empresas
+## API de Gerenciamento de Empresas
 
 Este projeto consiste no desenvolvimento de endpoints para realizar operações de CRUD (Create, Read, Update, Delete) em registros de empresas, utilizando a linguagem de programação Python e o framework web Flask. Os endpoints permitem cadastrar, editar, remover e listar empresas, oferecendo suporte à paginação, ordenação e limite de registros por página.
 
