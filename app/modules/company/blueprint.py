@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app, jsonify, request
-from ...shared.utils import pagination, validator
+
 from ...shared.utils.parser import model_instance_and_dict, model_to_dict
+from ...shared.utils import pagination, validator
 from .validators import companyValidators
 from .model import Company
 
@@ -16,6 +17,10 @@ def get_all(*_, **kwargs):
 @validator.validate_request_data(companyValidators)
 def add_company():
   new_company, result = model_instance_and_dict(Company, request.json)
+  company = Company.query.filter_by(cnpj=request.json['cnpj']).first()
+  if company:
+    return jsonify({'error': 'Ja existe uma empresa com esse CNPJ.'}), 400
+
   current_app.db.session.add(new_company)
   current_app.db.session.commit()
   return jsonify(result), 201
