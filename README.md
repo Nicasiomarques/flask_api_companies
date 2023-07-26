@@ -285,3 +285,67 @@ Embora o projeto já tenha sido desenvolvido com sucesso, existem algumas melhor
 10. **Rate Limit e Slowdown**: Adoção de rate limiting para limitar o número de requisições por IP ou usuário, e slowdown para controlar a taxa de resposta em momentos de alto tráfego.
 
 É importante ressaltar que essas melhorias são consideradas opcionais e podem depender dos requisitos específicos do projeto e dos recursos disponíveis. Ao implementar essas melhorias, o projeto se tornará mais robusto, seguro e escalável, proporcionando uma melhor experiência tanto para os usuários como para os desenvolvedores que trabalham nele.
+
+## Como Contribuir
+
+Agradecemos seu interesse em contribuir para o projeto! Contribuições são sempre bem-vindas e podem ajudar a melhorar a qualidade e funcionalidade da API de Gerenciamento de Empresas. Abaixo estão algumas diretrizes sobre como contribuir:
+
+### 1. Abrindo Issues
+
+Se você encontrou um bug, deseja sugerir uma melhoria ou tem alguma dúvida sobre o projeto, sinta-se à vontade para abrir uma issue no repositório. Descreva claramente o problema ou a sugestão para que possamos entender melhor a questão e respondê-la adequadamente.
+
+### 2. Realizando Fork e Pull Requests
+
+Se você deseja contribuir com código para o projeto, siga os passos abaixo:
+
+1. Faça um fork do repositório para o seu próprio perfil do GitHub.
+2. Clone o repositório forkado para o seu ambiente local.
+3. Crie um branch para suas alterações:
+
+   ```bash
+   git checkout -b nome-da-sua-feature
+   ```
+
+4. Realize as alterações desejadas no código e adicione os commits de forma coerente.
+
+### Git Flow e Convenção de Commits
+
+Para manter um fluxo de trabalho organizado, recomendamos seguir o Git Flow e a Convenção de Commits.
+
+#### Git Flow
+
+O Git Flow é uma metodologia de organização de branches que ajuda a gerenciar as diferentes etapas do desenvolvimento. Seguindo essa abordagem, temos dois branches principais:
+
+- `main`: Branch principal que contém o código estável do projeto. Commits direcionados a esse branch devem ser feitos por meio de Pull Requests.
+
+- `develop`: Branch de desenvolvimento que contém o código em andamento. Os novos recursos e correções de bugs devem ser feitos a partir dessa branch.
+
+Além disso, para cada nova funcionalidade ou correção, é recomendável criar um branch a partir do `develop` e dar um nome descritivo, como `feature/nome-da-funcionalidade` ou `bugfix/nome-do-bug`. Quando a funcionalidade ou correção estiver pronta, você pode abrir um Pull Request para mesclar as alterações no `develop`.
+
+#### Convenção de Commits
+
+Uma boa convenção de commits ajuda a manter um histórico de alterações claro e consistente. Recomendamos seguir o formato Conventional Commits. Isso implica em começar o commit com um dos seguintes prefixos:
+
+- `feat`: Para adicionar uma nova funcionalidade.
+- `fix`: Para correção de bugs.
+- `chore`: Para alterações de configurações e tarefas de manutenção.
+- `docs`: Para alterações na documentação.
+- `style`: Para alterações de formatação ou estilo que não afetam o código em si.
+- `refactor`: Para alterações de código que não adicionam novas funcionalidades nem corrigem bugs.
+- `test`: Para adição ou modificação de testes.
+
+Exemplo de um commit usando a convenção:
+
+```
+feat: Adiciona endpoint de listagem de empresas
+```
+
+### 3. Abra um Pull Request
+
+Quando suas alterações estiverem prontas, abra um Pull Request para o branch `develop`. Descreva claramente o que foi alterado e adicione qualquer informação relevante. Seu Pull Request será revisado e, se estiver tudo certo, será mesclado ao branch `develop`.
+
+### 4. Manutenção Contínua
+
+Após a mesclagem do seu Pull Request, o projeto continuará evoluindo e você pode continuar contribuindo com novas funcionalidades e correções sempre que desejar.
+
+Lembre-se de sempre manter um ambiente de respeito e colaboração ao contribuir para o projeto. Sua ajuda é valiosa e é graças à comunidade que o projeto pode crescer e se aprimorar. Seja bem-vindo(a) à equipe de contribuidores(as) deste projeto!
