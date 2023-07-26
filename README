@@ -1,21 +1,41 @@
-## Como rodar o projeto
+## Como rodar o projeto - API de Gerenciamento de Empresas
 
-1. **Configuração do Ambiente**:
+Este projeto consiste no desenvolvimento de endpoints para realizar operações de CRUD (Create, Read, Update, Delete) em registros de empresas, utilizando a linguagem de programação Python e o framework web Flask. Os endpoints permitem cadastrar, editar, remover e listar empresas, oferecendo suporte à paginação, ordenação e limite de registros por página.
 
-   Antes de executar o projeto, certifique-se de configurar corretamente o ambiente. Defina as variáveis de ambiente necessárias para o Flask:
+### Requisitos
 
-   ```bash
-   export FLASK_APP=app
-   export FLASK_ENV=development
-   export FLASK_DEBUG=True
-   ```
-Claro! Abaixo estão os exemplos de chamadas `curl` com quebra de linha, e também foi adicionado o parâmetro `order` na rota de listagem das empresas, juntamente com informações sobre como contribuir com o projeto.
+1. **Cadastro de Nova Empresa**: Endpoint para cadastrar uma nova empresa com os campos obrigatórios: CNPJ, Nome Razão, Nome Fantasia e CNAE.
+2. **Edição de Empresa Existente**: Endpoint para editar um cadastro de empresa existente, permitindo alterar apenas os campos Nome Fantasia e CNAE.
+3. **Remoção de Empresa**: Endpoint para remover um cadastro de empresa existente com base no CNPJ.
+4. **Listagem de Empresas**: Endpoint de listagem de empresas, com suporte à paginação, ordenação e limite de registros por página.
 
-## Nome do Projeto
+### Dicas e Observações
 
-Descrição breve do projeto.
+- Utilize o framework web Flask para a criação dos endpoints.
+- Para a listagem paginada, utilize os parâmetros (start, limit, sort e dir) para especificar os critérios de paginação e ordenação.
+- Documente os endpoints utilizando o Swagger ou outra ferramenta de documentação de endpoints.
 
-### Executando o Projeto Localmente
+### Bônus (opcional)
+
+Caso queira adicionar mais complexidade ao projeto, você pode considerar as seguintes melhorias:
+
+1. **Validações nos Campos de Entrada**: Implementar validações nos campos de entrada, como verificação de formato de CNPJ válido.
+2. **Autenticação e Autorização**: Adicionar autenticação e autorização aos endpoints para garantir que apenas usuários autorizados possam realizar as operações CRUD.
+3. **Banco de Dados Relacional**: Utilizar um banco de dados relacional (por exemplo, SQLite, PostgreSQL) para armazenar os dados das empresas, criando a estrutura do banco e as migrações necessárias.
+
+## Configuração do Ambiente
+
+Antes de executar o projeto, certifique-se de configurar corretamente o ambiente através do arquivo `.env`. Crie um arquivo chamado `.env` na raiz do projeto e adicione as seguintes variáveis com seus respectivos valores:
+
+```plaintext
+DATABASE_PATH=sqlite:////tmp/companyDB.db
+JWT_SECRET_KEY=38H49UH3FRUGHOIGHEROBGOFDUBGJOBDKFJBGDOFOBOGUBEJBG
+JWT_EXPIRES_DAY=1
+```
+
+Essas variáveis são necessárias para o funcionamento correto do Flask e do JWT.
+
+## Executando o Projeto Localmente
 
 Siga as etapas abaixo para executar o projeto em sua máquina local.
 
@@ -59,9 +79,73 @@ Siga as etapas abaixo para executar o projeto em sua máquina local.
 
    O servidor estará acessível em `http://localhost:5000`.
 
-### Endpoints
+## Autenticação
 
-Aqui estão os endpoints disponíveis na API:
+Para acessar as rotas protegidas da empresa, é necessário primeiro obter um token JWT através do endpoint de autenticação.
+
+### Login de Usuário
+
+Realiza o login de um usuário e retorna um token JWT válido para acesso às rotas protegidas.
+
+- **URL:** `/auth/login`
+- **Método:** `POST`
+- **Corpo da Requisição (JSON):**
+  - `username` (string, obrigatório): Nome de usuário.
+  - `password` (string, obrigatório): Senha do usuário.
+
+##### Exemplo de Uso com `curl`:
+
+```bash
+curl -X POST \
+  http://localhost:5000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "seu_usuario",
+    "password": "sua_senha"
+  }'
+```
+
+O resultado será um JSON contendo o token JWT:
+
+```json
+
+{
+	"id": 2,
+	"password": "$pbkdf2-sha256$29000$pNRaK2Us5fyf0zpnjLGWcg$2H96fvJCMknJdaY4dhYoc9sns0WND1j82pRvGELkNa4",
+	"username": "nick123",
+	"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MDM2NDY5MiwianRpIjoiYWUyNGE1YWQtYTE3ZS00NDc2LWFhY2EtNTRkMGY3MGFkNTI3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MiwibmJmIjoxNjkwMzY0NjkyLCJleHAiOjE2OTA0NTEwOTJ9.2uqt0KyvFS1gv7JnBEp6SsYxCcYG8iPuQQqOEgpdBzs",
+	"refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MDM2NDY5MiwianRpIjoiZDg5N2EyMDMtYTFiOS00ZjMzLTk2Y2MtMGQxNTA3MjZjNmI0IiwidHlwZSI6InJlZnJlc2giLCJzdWIiOjIsIm5iZiI6MTY5MDM2NDY5MiwiZXhwIjoxNjkyOTU2NjkyfQ.XVyS56Ev0TO7JicxsY-B0tRpsy8uruUWUt5Mr
+
+POiSKE"
+}
+
+```
+
+### Registro de Novo Usuário
+
+Registra um novo usuário na aplicação.
+
+- **URL:** `/auth/signup`
+- **Método:** `POST`
+- **Corpo da Requisição (JSON):**
+  - `username` (string, obrigatório): Nome de usuário.
+  - `password` (string, obrigatório): Senha do usuário.
+
+##### Exemplo de Uso com `curl`:
+
+```bash
+curl -X POST \
+  http://localhost:5000/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "novo_usuario",
+    "password": "nova_senha"
+  }'
+```
+
+### Endpoints da Empresa
+
+Aqui estão os endpoints disponíveis na API para a empresa:
 
 #### Listar Todas as Empresas
 
@@ -73,6 +157,8 @@ Retorna uma lista paginada contendo todas as empresas cadastradas.
   - `page` (int): Página atual (padrão: 1).
   - `per_page` (int): Número de itens por página (padrão: 25).
   - `order` (string): Campo pelo qual os resultados serão ordenados (opcional).
+- **Header da Requisição:**
+  - `Authorization`: Token JWT obtido no login.
 
 ##### Exemplo de Uso com `curl`:
 
@@ -81,7 +167,8 @@ curl -X GET \
   http://localhost:5000/companies \
   -d "page=1" \
   -d "per_page=10" \
-  -d "order=nome_fantasia"
+  -d "order=nome_fantasia" \
+  -H "Authorization: Bearer seu-token-jwt"
 ```
 
 #### Adicionar uma Nova Empresa
@@ -95,6 +182,8 @@ Adiciona uma nova empresa ao banco de dados.
   - `cnae` (string, obrigatório): Código Nacional de Atividade Econômica (CNAE) da empresa.
   - `fantasyName` (string, obrigatório): Nome fantasia da empresa.
   - Outros campos opcionais, se aplicável.
+- **Header da Requisição:**
+  - `Authorization`: Token JWT obtido no login.
 
 ##### Exemplo de Uso com `curl`:
 
@@ -102,6 +191,7 @@ Adiciona uma nova empresa ao banco de dados.
 curl -X POST \
   http://localhost:5000/companies \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer seu-token-jwt" \
   -d '{
     "name": "Empresa XYZ",
     "cnae": "123456",
@@ -117,11 +207,13 @@ Retorna os detalhes de uma empresa específica com base no ID fornecido.
 - **Método:** `GET`
 - **Parâmetro da URL:**
   - `id` (int): ID da empresa a ser obtida.
+- **Header da Requisição:**
+  - `Authorization`: Token JWT obtido no login.
 
 ##### Exemplo de Uso com `curl`:
 
 ```bash
-curl -X GET http://localhost:5000/companies/1
+curl -X GET http://localhost:5000/companies/1 -H "Authorization: Bearer seu-token-jwt"
 ```
 
 #### Editar uma Empresa
@@ -135,6 +227,8 @@ Edita os campos "cnae" e "fantasyName" de uma empresa específica com base no ID
 - **Corpo da Requisição (JSON):**
   - `cnae` (string, obrigatório): Novo CNAE da empresa.
   - `fantasyName` (string, obrigatório): Novo nome fantasia da empresa.
+- **Header da Requisição:**
+  - `Authorization`: Token JWT obtido no login.
 
 ##### Exemplo de Uso com `curl`:
 
@@ -142,6 +236,7 @@ Edita os campos "cnae" e "fantasyName" de uma empresa específica com base no ID
 curl -X PUT \
   http://localhost:5000/companies/1 \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer seu-token-jwt" \
   -d '{
     "cnae": "987654",
     "fantasyName": "Novo Nome Fantasia"
@@ -156,49 +251,37 @@ Exclui uma empresa específica com base no CNPJ fornecido.
 - **Método:** `DELETE`
 - **Parâmetro da URL:**
   - `cnpj` (string): CNPJ da empresa a ser excluída.
+- **Header da Requisição:**
+  - `Authorization`: Token JWT obtido no login.
 
 ##### Exemplo de Uso com `curl`:
 
 ```bash
-curl -X DELETE http://localhost:5000/companies/CNPJ-da-Empresa
+curl -X DELETE http://localhost:5000/companies/CNPJ-da-Empresa -H "Authorization: Bearer seu-token-jwt"
 ```
 
-### Como Contribuir com o Projeto
+## Possíveis Melhorias (Não Implementadas)
 
-Se você deseja contribuir com o projeto, siga as etapas abaixo:
+Embora o projeto já tenha sido desenvolvido com sucesso, existem algumas melhorias que poderiam ser adicionadas para torná-lo ainda mais robusto e escalável. Algumas dessas melhorias incluem:
 
-1. Faça um **fork** do reposit
+1. **SOLID Principles**: Refatoração do código para aderir aos princípios SOLID, que promovem uma estrutura de código mais modular, flexível e de fácil manutenção.
 
-ório no GitHub.
+2. **Clean Architecture**: Implementação da Clean Architecture, que separa o código em camadas com responsabilidades bem definidas, facilitando a escalabilidade e a substituição de tecnologias sem afetar a lógica de negócio.
 
-2. Clone o repositório forkado para a sua máquina local:
+3. **Hexagonal Architecture**: Adoção da Hexagonal Architecture (também conhecida como Ports and Adapters), que permite isolar a lógica de negócio da infraestrutura, tornando o projeto mais independente e testável.
 
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
-   ```
+4. **Testes Automatizados**: Desenvolvimento de testes automatizados (testes unitários, testes de integração, etc.) para garantir a qualidade do código e prevenir regressões.
 
-3. Crie uma **branch** para a sua contribuição:
+5. **Graceful Shutdown**: Implementação de um mecanismo de "Graceful Shutdown" para a API, garantindo que todas as conexões e processos sejam finalizados corretamente ao encerrar o serviço.
 
-   ```bash
-   git checkout -b minha-contribuicao
-   ```
+6. **Health Check**: Adição de endpoints de "Health Check" para monitorar o estado da aplicação, possibilitando a detecção precoce de problemas e a tomada de ações corretivas.
 
-4. Faça as alterações e adições necessárias no código.
+7. **Contêinerização Docker**: Criação de um Dockerfile para empacotar a aplicação em um contêiner, facilitando a implantação e a garantia de que a aplicação funcione de forma consistente em diferentes ambientes.
 
-5. Realize os **commits** das suas alterações:
+8. **Orquestração com Kubernetes**: Utilização do Kubernetes para orquestrar e gerenciar os contêineres da aplicação em um ambiente de produção, tornando a implantação e o dimensionamento mais eficientes.
 
-   ```bash
-   git add .
-   git commit -m "Minha contribuição: Descrição das alterações"
-   ```
+9. **Caching de Rotas Pesadas**: Implementação de caching para rotas que realizam consultas pesadas ou cálculos intensivos, melhorando o desempenho e reduzindo a carga no banco de dados.
 
-6. Faça um **push** da sua branch para o seu repositório forkado:
+10. **Rate Limit e Slowdown**: Adoção de rate limiting para limitar o número de requisições por IP ou usuário, e slowdown para controlar a taxa de resposta em momentos de alto tráfego.
 
-   ```bash
-   git push origin minha-contribuicao
-   ```
-
-7. Abra um **Pull Request** (PR) no repositório original.
-
-8. Aguarde a revisão e discussão da sua contribuição. Após a aprovação, sua contribuição será mesclada ao projeto.
+É importante ressaltar que essas melhorias são consideradas opcionais e podem depender dos requisitos específicos do projeto e dos recursos disponíveis. Ao implementar essas melhorias, o projeto se tornará mais robusto, seguro e escalável, proporcionando uma melhor experiência tanto para os usuários como para os desenvolvedores que trabalham nele.
