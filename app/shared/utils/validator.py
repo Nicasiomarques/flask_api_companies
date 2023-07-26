@@ -23,3 +23,27 @@ def validate_request_data(validations):
       return func(*args, **kwargs)
     return wrapper
   return decorator
+
+def check_required_fields(expected_attributes):
+  def decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+      data = request.json
+      if data is None:
+        return jsonify({'error': 'Dados da requisição não foram fornecidos.'}), 400
+
+      for attr in expected_attributes:
+        if attr not in data:
+          return jsonify({'error': f'O atributo {attr} está faltando na requisição.'}), 400
+      return func(*args, **kwargs)
+    return wrapper
+  return decorator
+
+def handle_request_errors(func):
+  @wraps(func)
+  def wrapper(*args, **kwargs):
+    try:
+      return func(*args, **kwargs)
+    except Exception as e:
+      return jsonify({'error': 'Formato inválido de requisição, verifique se os campos estão escritos correctamente.'}), 400
+  return wrapper
